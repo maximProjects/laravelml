@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Route;
 class FrontController extends Controller
 {
     /**
@@ -14,8 +11,13 @@ class FrontController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index($route)
     {
+        if (class_exists('Router')) {
+           //echo 'ROUTING OK';
+        };
+        echo "Lng =".Route::getCurrentRoute()->lang;
+       // print_r(Route::getCurrentRoute());
         return view('index');
     }
 

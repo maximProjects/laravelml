@@ -11,35 +11,38 @@
 |
 */
 
-Route::get('/', ['uses' => 'FrontController@index']);
+Route::group(['prefix' => '{lang}'], function () {
 
-// Authentication routes...
-Route::get('auth/login', 'Auth\AuthController@getLogin');
-Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
+    Route::get('/', ['uses' => 'FrontController@index']);
 
-// Registration routes...
-Route::get('auth/register', 'Auth\AuthController@getRegister');
-Route::post('auth/register', 'Auth\AuthController@postRegister');
+    // Authentication routes...
+    Route::get('auth/login', 'Auth\AuthController@getLogin');
+    Route::post('auth/login', 'Auth\AuthController@postLogin');
+    Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
-// Admin routing
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('admin/', ['uses' => 'AdminController@index']);
+    // Registration routes...
+    Route::get('auth/register', 'Auth\AuthController@getRegister');
+    Route::post('auth/register', 'Auth\AuthController@postRegister');
 
-    Route::any('admin/edit/{id}', ['uses' => 'AdminController@edit']);
+    // Admin routing
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('admin/', ['uses' => 'AdminController@index']);
 
-    Route::any('admin/save/{id}', ['uses' => 'AdminController@save']);
+        Route::any('admin/edit/{id}', ['uses' => 'AdminController@edit']);
 
-    Route::any('admin/delete/{id}', ['uses' => 'AdminController@delete']);
+        Route::any('admin/save/{id}', ['uses' => 'AdminController@save']);
+
+        Route::any('admin/delete/{id}', ['uses' => 'AdminController@delete']);
+    });
+
+    Route::any('admin/image/{filename}', function($filename)
+    {
+        $path = storage_path().DIRECTORY_SEPARATOR.'app.'.DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR.$filename;
+        $file = File::get($path);
+        $type = File::mimeType($path);
+        $response = Response::make($file);
+        $response->header("Content-Type", $type);
+        return $response;
+    });
+
 });
-
-Route::any('admin/image/{filename}', function($filename)
-{
-    $path = storage_path().DIRECTORY_SEPARATOR.'app.'.DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR.$filename;
-    $file = File::get($path);
-    $type = File::mimeType($path);
-    $response = Response::make($file);
-    $response->header("Content-Type", $type);
-    return $response;
-});
-
