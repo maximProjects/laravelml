@@ -25,14 +25,14 @@ Route::group(['prefix' => '{lang}'], function () {
     Route::post('auth/register', 'Auth\AuthController@postRegister');
 
     // Admin routing
-    Route::group(['middleware' => 'auth'], function () {
-        Route::get('admin/', ['uses' => 'AdminController@index']);
+    Route::group('admin/', ['middleware' => 'auth'], function () {
+        Route::get('/', ['uses' => 'AdminController@index']);
 
-        Route::any('admin/edit/{id}', ['uses' => 'AdminController@edit']);
+        Route::any('edit/{id}', ['uses' => 'AdminController@edit']);
 
-        Route::any('admin/save/{id}', ['uses' => 'AdminController@save']);
+        Route::any('save/{id}', ['uses' => 'AdminController@save']);
 
-        Route::any('admin/delete/{id}', ['uses' => 'AdminController@delete']);
+        Route::any('delete/{id}', ['uses' => 'AdminController@delete']);
     });
 
     Route::any('admin/image/{filename}', function($filename)

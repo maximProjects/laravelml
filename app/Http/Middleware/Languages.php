@@ -1,13 +1,14 @@
 <?php
-
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Routing\Router;
+use Route;
 class Languages
 {
     /**
-     * Handle an incoming request.
+     * Han
+
+    ndle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
@@ -15,8 +16,12 @@ class Languages
      */
     public function handle($request, Closure $next)
     {
+        //echo "Lng =". \Route::getCurrentRoute()->lang;
         //echo Route::getCurrentRoute()->getPrefix();
         //echo $request->route()->getPrefix();
+      //  $currAction = $request->route()->getAction();
+      //  echo $currAction;
+        $request->attributes->add(['lang' => 'lt']);
         return $next($request);
     }
 }
