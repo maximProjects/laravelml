@@ -4,7 +4,7 @@
  */
 ?>
 
-{!! Form::open(array('url' => '/auth/login', 'method' => 'post')) !!}
+{!! Form::open(array('url' => 'en/auth/login', 'method' => 'post')) !!}
     {!! csrf_field() !!}
     <div>
         Email

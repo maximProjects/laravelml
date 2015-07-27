@@ -11,7 +11,10 @@
 |
 */
 
+// if prefix empty
+
 Route::group(['prefix' => '{lang}'], function () {
+
 
     Route::get('/', ['uses' => 'FrontController@index']);
 
@@ -25,19 +28,18 @@ Route::group(['prefix' => '{lang}'], function () {
     Route::post('auth/register', 'Auth\AuthController@postRegister');
 
     // Admin routing
-    Route::group('admin/', ['middleware' => 'auth'], function () {
-        Route::get('/', ['uses' => 'AdminController@index']);
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('admin/', ['uses' => 'AdminController@index']);
 
-        Route::any('edit/{id}', ['uses' => 'AdminController@edit']);
+        Route::any('admin/edit/{id}', ['uses' => 'AdminController@edit']);
 
-        Route::any('save/{id}', ['uses' => 'AdminController@save']);
+        Route::any('admin/save/{id}', ['uses' => 'AdminController@save']);
 
-        Route::any('delete/{id}', ['uses' => 'AdminController@delete']);
+        Route::any('admin/delete/{id}', ['uses' => 'AdminController@delete']);
     });
-
-    Route::any('admin/image/{filename}', function($filename)
-    {
-        $path = storage_path().DIRECTORY_SEPARATOR.'app.'.DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR.$filename;
+});
+    Route::any('admin/image/{filename}', function ($filename) {
+        $path = storage_path() . DIRECTORY_SEPARATOR . 'app.' . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . $filename;
         $file = File::get($path);
         $type = File::mimeType($path);
         $response = Response::make($file);
@@ -45,4 +47,4 @@ Route::group(['prefix' => '{lang}'], function () {
         return $response;
     });
 
-});
+

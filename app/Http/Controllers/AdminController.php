@@ -28,6 +28,7 @@ class AdminController extends Controller
             $user = $request->user();
             $users = User::orderby('id', 'desc')->paginate(10);
         }
+
         // render view
         return view('admin.dashboard', array('user' => $user, 'users' => $users));
     }
@@ -80,7 +81,7 @@ class AdminController extends Controller
         if ($validator->fails()) {
             // if errors
             // stay in form
-            return redirect('admin/edit/'.$request->id)
+            return redirect('en/admin/edit/'.$request->id)
                 ->withErrors($validator)
                 ->withInput();
         }

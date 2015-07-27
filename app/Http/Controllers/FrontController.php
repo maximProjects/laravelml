@@ -13,10 +13,6 @@ class FrontController extends Controller
      */
     public function index(Request $request)
     {
-        echo $request->attributes->get('lang');
-
-        echo "<br>Lng =". \Route::getCurrentRoute()->lang;
-
         return view('index');
     }
 

@@ -1,5 +1,6 @@
-Yuou are signed as <?= $user->name ?> <a href="<?= url('auth/logout') ?>">Logout</a>
-<hr>
+@extends('layouts.admin')
+
+@section('content')
 <h1>Users admininstration</h1>
 <table border="1">
     <tr>
@@ -30,11 +31,11 @@ Yuou are signed as <?= $user->name ?> <a href="<?= url('auth/logout') ?>">Logout
                 <?php
                 if ($user->id != $one_user->id) {
                 ?>
-                <a href="<?= url('admin/delete/'.$one_user->id); ?>">Delete</a> |
+                <a href="<?= url('en/admin/delete/'.$one_user->id); ?>">Delete</a> |
                 <?php
                 }
                 ?>
-                <a href="<?= url('admin/edit/'.$one_user->id); ?>">Edit</a>
+                <a href="<?= url('en/admin/edit/'.$one_user->id); ?>">Edit</a>
             </td>
         </tr>
     <?php
@@ -42,3 +43,4 @@ Yuou are signed as <?= $user->name ?> <a href="<?= url('auth/logout') ?>">Logout
     ?>
     <?= $users->render() ?>
 </table>
+@endsection
