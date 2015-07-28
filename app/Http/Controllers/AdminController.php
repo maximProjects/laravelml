@@ -23,16 +23,13 @@ class AdminController extends Controller
         /*
          * displays users list table
          */
-        if ($request->user()) {
-            // if user loged in get this user data, and all users data
-            $user = $request->user();
+            // get all users data
             $users = User::orderby('id', 'desc')->paginate(10);
-        }
 
         // render view
-        return view('admin.dashboard', array('user' => $user, 'users' => $users));
+        return view('admin.dashboard', array('users' => $users));
     }
-    
+
     public function edit(Request $request)
     {
         /*
@@ -113,4 +110,55 @@ class AdminController extends Controller
     /*
      * End users actions
      */
+
+    /*
+     * MULTILANGUAGE SECTION
+     */
+
+
+    /*
+     * Languages actions
+     */
+    public function languages(Request $request)
+    {
+        /*
+         * display languages list
+         */
+        return view('admin.lang_list');
+    }
+
+    public function addLang(Request $request)
+    {
+        return view('admin.add_lang');
+    }
+
+    public function saveNewLang(Request $request) {
+        $verifier = App::make('validation.presence');
+        $verifier->setConnection('mysql');
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:35',
+            'prefix' => 'required|unique:languages,prefix,',
+            'image' => 'image'
+        ]);
+        $validator->setPresenceVerifier($verifier);
+    }
+
+    public function deleteLang(Request $request)
+    {
+
+    }
+
+    public function editLang(Request $request)
+    {
+        return view('admin.edit_lang');
+    }
+
+
+    /*
+     * END Languages actions
+     */
+
+    /*
+    * END MULTILANGUAGE SECTION
+    */
 }

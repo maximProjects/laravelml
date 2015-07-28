@@ -35,12 +35,13 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Users</a></li>
                     <li><a href="">Translations</a></li>
-                    <li><a href="">Languages</a></li>
+                    <li><a href="<?= url($curLang->prefix.'/admin/labels') ?>">Languages</a></li>
+                    <li><a href="<?= url($curLang->prefix.'/admin/languages') ?>">Languages</a></li>
                     @include('widgets.langSel')
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">You are signed as <?= $user->name ?></a></li>
+                    <li><a href="#">You are signed as <?= Auth::user()->name ?></a></li>
                     <li><a href="/<?= $curLang->prefix ?>/auth/logout">Logout </a></li>
                 </ul>
             </div><!--/.nav-collapse -->

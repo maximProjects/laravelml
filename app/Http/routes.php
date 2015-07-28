@@ -29,6 +29,7 @@ Route::group(['prefix' => '{lang}'], function () {
 
     // Admin routing
     Route::group(['middleware' => 'auth'], function () {
+        // admin users actions
         Route::get('admin/', ['uses' => 'AdminController@index']);
 
         Route::any('admin/edit/{id}', ['uses' => 'AdminController@edit']);
@@ -36,6 +37,27 @@ Route::group(['prefix' => '{lang}'], function () {
         Route::any('admin/save/{id}', ['uses' => 'AdminController@save']);
 
         Route::any('admin/delete/{id}', ['uses' => 'AdminController@delete']);
+        // end adminusers actions
+
+        /*
+         * Multilanguage admin settings section
+         */
+            // admin languages actions
+
+            Route::get('admin/languages', ['uses' => 'AdminController@languages']);
+
+            Route::any('admin/addLang', ['uses' => 'AdminController@addLang']);
+
+            Route::any('admin/editLang/{id}', ['uses' => 'AdminController@editLang']);
+
+            Route::any('admin/deleteLang/{id}', ['uses' => 'AdminController@deleteLang']);
+
+            Route::any('admin/saveNewLang', ['uses' => 'AdminController@saveNewLang']);
+
+            // end admin languages actions
+        /*
+         * END Multilanguage admin settings section
+         */
     });
 });
     Route::any('admin/image/{filename}', function ($filename) {
