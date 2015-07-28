@@ -34,11 +34,13 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Users</a></li>
+                    <li><a href="">Translations</a></li>
+                    <li><a href="">Languages</a></li>
                     @include('widgets.langSel')
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li>You are signed as <?= $user->name ?></li>
+                    <li><a href="#">You are signed as <?= $user->name ?></a></li>
                     <li><a href="/<?= $curLang->prefix ?>/auth/logout">Logout </a></li>
                 </ul>
             </div><!--/.nav-collapse -->

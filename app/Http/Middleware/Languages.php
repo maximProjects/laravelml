@@ -51,7 +51,7 @@ class Languages
             $langs = Language::all();
             view()->share('curLang', $curLang);
             view()->share('langs', $langs);
-            $request->lang = $curLang;
+            $request->curLang = $curLang;
         } else {
             // if this language not found redirect to with default locale
             if (Request::segment(2) != 'image') {
