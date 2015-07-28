@@ -1,14 +1,12 @@
 <?php
-/*
- * Country class from table countries
- */
+
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Country extends Model
+class LabelsTranslation extends Model
 {
-    protected $table = 'countries';
+    protected $table = 'labels_translations';
     protected $fillable = ['name'];
     public $timestamps = false;
 }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLabelsTrlsTable extends Migration
+class CreateLabelsTranslationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,13 @@ class CreateLabelsTrlsTable extends Migration
      */
     public function up()
     {
-        Schema::create('labelsTrls', function (Blueprint $table) {
+        Schema::create('labels_translations', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('label_id');
-            $table->string('lang_id');
+            $table->unsignedInteger('label_id');
+            $table->unsignedInteger('lang_id');
             $table->string('text');
             //$table->timestamps();
+
         });
     }
 

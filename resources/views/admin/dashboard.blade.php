@@ -29,7 +29,7 @@
             <td><?= $one_user->email ?></td>
             <td>
                 <?php
-                if ($user->id != $one_user->id) {
+                if (Auth::user()->id != $one_user->id) {
                 ?>
                 <a href="<?= url('en/admin/delete/'.$one_user->id); ?>">Delete</a> |
                 <?php

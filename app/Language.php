@@ -8,4 +8,5 @@ class Language extends Model
 {
     protected $table = 'languages';
     protected $fillable = ['name'];
+    public $timestamps = false;
 }

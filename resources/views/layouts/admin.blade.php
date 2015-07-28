@@ -34,10 +34,9 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Users</a></li>
-                    <li><a href="">Translations</a></li>
-                    <li><a href="<?= url($curLang->prefix.'/admin/labels') ?>">Languages</a></li>
+                    <li><a href="<?= url($curLang->prefix.'/admin/labels') ?>">Labels</a></li>
                     <li><a href="<?= url($curLang->prefix.'/admin/languages') ?>">Languages</a></li>
-                    @include('widgets.langSel')
+                    @include('widgets.langSel_admin')
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">

@@ -17,17 +17,16 @@
         <tr>
             <td>{{ $lang->id }}</td>
             <td>
-                ico
-                <?php
-                    /*
-                $img_name = 'no-photo.gif';
-                if (!empty($one_user->picture_id)) {
-                    $img_name = $one_user->picture_id;
-                }
 
-                <img width="100px" src="<?= url('admin/image', array('filename' => $img_name)) ?>" />
-                */
+                <?php
+
+                $img_name = 'no-photo.gif';
+                if (!empty($lang->ico)) {
+                    $img_name = $lang->ico;
+                }
                 ?>
+                <img width="20px" src="<?= url('admin/image', array('filename' => $img_name)) ?>" />
+
             </td>
             <td>{{ $lang->prefix }}</td>
             <td>{{ $lang->name }}</td>

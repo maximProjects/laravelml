@@ -43,7 +43,6 @@ Route::group(['prefix' => '{lang}'], function () {
          * Multilanguage admin settings section
          */
             // admin languages actions
-
             Route::get('admin/languages', ['uses' => 'AdminController@languages']);
 
             Route::any('admin/addLang', ['uses' => 'AdminController@addLang']);
@@ -54,7 +53,23 @@ Route::group(['prefix' => '{lang}'], function () {
 
             Route::any('admin/saveNewLang', ['uses' => 'AdminController@saveNewLang']);
 
+            Route::any('admin/saveEditLang/{id}', ['uses' => 'AdminController@saveEditLang']);
             // end admin languages actions
+
+                // admin labels actions
+            Route::get('admin/labels', ['uses' => 'AdminController@labels']);
+
+            Route::any('admin/addLabel', ['uses' => 'AdminController@addLabel']);
+
+            Route::any('admin/editLabel/{id}', ['uses' => 'AdminController@editLabel']);
+
+            Route::any('admin/deleteLabel/{id}', ['uses' => 'AdminController@deleteLabel']);
+
+            Route::any('admin/saveNewLabel', ['uses' => 'AdminController@saveNewLabel']);
+
+            Route::any('admin/saveEditLabel/{id}', ['uses' => 'AdminController@saveEditLabel']);
+            // end admin labels actions
+
         /*
          * END Multilanguage admin settings section
          */

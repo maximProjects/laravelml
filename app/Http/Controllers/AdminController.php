@@ -57,7 +57,7 @@ class AdminController extends Controller
             $userDel->delete();
         }
         // return to users list
-        return redirect('admin/');
+        return redirect($request->curLang->prefix.'/admin/');
     }
 
     public function save(Request $request)
@@ -78,7 +78,7 @@ class AdminController extends Controller
         if ($validator->fails()) {
             // if errors
             // stay in form
-            return redirect('en/admin/edit/'.$request->id)
+            return redirect($request->curLang->prefix.'/admin/edit/'.$request->id)
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -141,21 +141,214 @@ class AdminController extends Controller
             'image' => 'image'
         ]);
         $validator->setPresenceVerifier($verifier);
+        if ($validator->fails()) {
+            return redirect($request->curLang->prefix.'/admin/addLang/')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $newLang = new App\Language();
+        $newLang->name = $request->name;
+        $newLang->prefix = $request->prefix;
+        if ($request->visible) {
+            $newLang->visible = $request->visible;
+        }
+        // is upload image save image
+        if ($request->hasFile('image')) {
+            $ext = $request->file('image')->getClientOriginalExtension();
+            $file_name = $request->prefix . "." . $ext;
+            $img_save = Storage::put(
+                $file_name,
+                file_get_contents($request->file('image')->getRealPath())
+            );
+            if ($img_save) {
+                // if image save success save image name in user attribute
+                $newLang->ico = $file_name;
+            }
+        }
+
+
+        if ($newLang->save()) {
+            return redirect($request->curLang->prefix.'/admin/languages/');
+        }
     }
 
     public function deleteLang(Request $request)
     {
 
+        $langDel = App\Language::find($request->id);
+        $langDel->delete();
+
+        // return to languages list
+        return redirect($request->curLang->prefix.'/admin/languages/');
+
     }
 
     public function editLang(Request $request)
     {
-        return view('admin.edit_lang');
+        $editLang = App\Language::find($request->id);
+        return view('admin.edit_lang', array('editLang' => $editLang));
     }
 
+    public function saveEditLang(Request $request)
+    {
+        $editLang = App\Language::find($request->id);
+        $verifier = App::make('validation.presence');
+        $verifier->setConnection('mysql');
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:35',
+            'prefix' => 'required|unique:languages,prefix,'.$request->id,
+            'image' => 'image'
+        ]);
+        $validator->setPresenceVerifier($verifier);
+        if ($validator->fails()) {
+            return redirect($request->curLang->prefix.'/admin/editLang/'.$request->id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $editLang->name = $request->name;
+        $editLang->prefix = $request->prefix;
+        $editLang->visible = $request->visible;
+
+        // is upload image save image
+        if ($request->hasFile('image')) {
+            $ext = $request->file('image')->getClientOriginalExtension();
+            $file_name = $request->prefix . "." . $ext;
+            $img_save = Storage::put(
+                $file_name,
+                file_get_contents($request->file('image')->getRealPath())
+            );
+            if ($img_save) {
+                // if image save success save image name in user attribute
+                $editLang->ico = $file_name;
+            }
+        }
+
+        if ($editLang->save()) {
+            return redirect($request->curLang->prefix.'/admin/languages/');
+        }
+
+    }
 
     /*
      * END Languages actions
+     */
+
+    /*
+     * Labels action
+     */
+    public function labels(Request $request)
+    {
+        /*
+         * renders labels list
+         */
+        $labels = App\Label::all();
+        return view('admin.label_list', array('labels' => $labels));
+    }
+
+    public function addLabel(Request $request)
+    {
+        /*
+         * renders add label form
+         */
+        return view('admin.add_label');
+    }
+
+    public function saveNewLabel(Request $request) {
+        $verifier = App::make('validation.presence');
+        $verifier->setConnection('mysql');
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:35|unique:labels,name,',
+        ]);
+        $validator->setPresenceVerifier($verifier);
+        if ($validator->fails()) {
+            return redirect($request->curLang->prefix.'/admin/addLabel/')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $newLabel = new App\Label();
+        $newLabel->name = $request->name;
+
+        if ($newLabel->save()) {
+            $new_id = $newLabel->id;
+            // write Translations
+            $langs = App\Language::all();
+            foreach ($langs as $lang) {
+                $lang_input = $lang->prefix;
+                $txt = '';
+                if($request->$lang_input){
+                    $txt = $request->$lang_input;
+                }
+                $trl = new App\LabelsTranslation();
+                $trl->lang_id = $lang->id;
+                $trl->label_id = $new_id;
+                $trl->text = $txt;
+                $trl->save();
+            }
+            return redirect($request->curLang->prefix.'/admin/labels/');
+        }
+    }
+
+    public function deleteLabel(Request $request)
+    {
+
+        $labelDel = App\Label::find($request->id);
+        $labelDel->delete();
+        // return to languages list
+        return redirect($request->curLang->prefix.'/admin/labels/');
+
+    }
+
+    public function editLabel(Request $request)
+    {
+        $editLabel = App\Label::find($request->id);
+        // format translation array to edit translation
+        $trlsArr = array();
+        foreach ($editLabel->getTranslations as $trl) {
+            $trlsArr[$trl->lang_id] = $trl->text;
+        }
+        return view('admin.edit_label', array('editLabel' => $editLabel, 'trlsArr' => $trlsArr));
+    }
+
+    public function saveEditLabel(Request $request)
+    {
+        $editLabel = App\Label::find($request->id);
+
+        $verifier = App::make('validation.presence');
+        $verifier->setConnection('mysql');
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:35|unique:languages,name,'.$request->id,
+
+        ]);
+        $validator->setPresenceVerifier($verifier);
+        if ($validator->fails()) {
+            return redirect($request->curLang->prefix.'/admin/editLabel/'.$request->id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $editLabel->name = $request->name;
+
+        if ($editLabel->save()) {
+            $langs = App\Language::all();
+            foreach ($langs as $lang) {
+                $lang_input = $lang->prefix;
+                $txt = '';
+                if($request->$lang_input){
+                    $txt = $request->$lang_input;
+                }
+                $trl = App\LabelsTranslation::where('lang_id', $lang->id)->where('label_id', $request->id)->first();
+                $trl->text = $txt;
+               // print_r($trl);
+               // die;
+                $trl->save();
+            }
+            return redirect($request->curLang->prefix.'/admin/labels/');
+        }
+
+    }
+    /*
+     * End labels actions
      */
 
     /*
