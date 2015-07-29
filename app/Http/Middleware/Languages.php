@@ -49,8 +49,10 @@ class Languages
         if ($curLang) {
             // if language exist get all languages array
             $langs = Language::all();
+            // pass current language and langs array to all views
             view()->share('curLang', $curLang);
             view()->share('langs', $langs);
+            // pass current language and languages array to request they been accessed with all controllers
             $request->curLang = $curLang;
         } else {
             // if this language not found redirect to with default locale
