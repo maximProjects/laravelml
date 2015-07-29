@@ -34,14 +34,14 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Users</a></li>
-                    <li><a href="<?= url($curLang->prefix.'/admin/labels') ?>">Labels</a></li>
-                    <li><a href="<?= url($curLang->prefix.'/admin/languages') ?>">Languages</a></li>
+                    <li><a href="<?= TrlHelper::t()->url('/admin/labels') ?>">Labels</a></li>
+                    <li><a href="<?= TrlHelper::t()->url('/admin/languages') ?>">Languages {{TrlHelper::t()->getPrefix()}}</a></li>
                     @include('widgets.langSel_admin')
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">You are signed as <?= Auth::user()->name ?></a></li>
-                    <li><a href="/<?= $curLang->prefix ?>/auth/logout">Logout </a></li>
+                    <li><a href="<?= TrlHelper::t()->url('/auth/logout') ?>">Logout </a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

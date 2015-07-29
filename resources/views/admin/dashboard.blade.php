@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<h1>Users admininstration</h1>
+<h1>Users admininstration {{TrlHelper::t()->getLabel("site title")}}</h1>
 <table border="1">
     <tr>
         <th>Id</th>

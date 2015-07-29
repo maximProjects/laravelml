@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use App\Country;
+use TrlHelper;
 use Validator;
 use Storage;
 
@@ -57,7 +58,7 @@ class AdminController extends Controller
             $userDel->delete();
         }
         // return to users list
-        return redirect($request->curLang->prefix.'/admin/');
+        return TrlHelper::t()->redirect('admin/');
     }
 
     public function save(Request $request)
@@ -78,7 +79,12 @@ class AdminController extends Controller
         if ($validator->fails()) {
             // if errors
             // stay in form
+            /*
             return redirect($request->curLang->prefix.'/admin/edit/'.$request->id)
+                ->withErrors($validator)
+                ->withInput();
+            */
+            return TrlHelper::t()->redirect('admin/edit/'.$request->id)
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -104,7 +110,7 @@ class AdminController extends Controller
         // end save image
         if ($user->save()) {
             // if saved success redirect to users list
-            return redirect('admin/');
+            return TrlHelper::t()->redirect('admin/');
         }
     }
     /*
@@ -142,7 +148,12 @@ class AdminController extends Controller
         ]);
         $validator->setPresenceVerifier($verifier);
         if ($validator->fails()) {
+            /*
             return redirect($request->curLang->prefix.'/admin/addLang/')
+                ->withErrors($validator)
+                ->withInput();
+            */
+            return TrlHelper::t()->redirect('admin/addLang/')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -168,7 +179,8 @@ class AdminController extends Controller
 
 
         if ($newLang->save()) {
-            return redirect($request->curLang->prefix.'/admin/languages/');
+
+            return TrlHelper::t()->redirect('admin/languages/');
         }
     }
 
@@ -179,7 +191,8 @@ class AdminController extends Controller
         $langDel->delete();
 
         // return to languages list
-        return redirect($request->curLang->prefix.'/admin/languages/');
+
+        return TrlHelper::t()->redirect('admin/languages');
 
     }
 
@@ -201,7 +214,13 @@ class AdminController extends Controller
         ]);
         $validator->setPresenceVerifier($verifier);
         if ($validator->fails()) {
+            /*
             return redirect($request->curLang->prefix.'/admin/editLang/'.$request->id)
+                ->withErrors($validator)
+                ->withInput();
+            */
+
+            return TrlHelper::t()->redirect('admin/editLang/'.$request->id)
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -225,7 +244,7 @@ class AdminController extends Controller
         }
 
         if ($editLang->save()) {
-            return redirect($request->curLang->prefix.'/admin/languages/');
+            return TrlHelper::t()->redirect('admin/languages/');
         }
 
     }
@@ -262,7 +281,12 @@ class AdminController extends Controller
         ]);
         $validator->setPresenceVerifier($verifier);
         if ($validator->fails()) {
+            /*
             return redirect($request->curLang->prefix.'/admin/addLabel/')
+                ->withErrors($validator)
+                ->withInput();
+            */
+            return TrlHelper::t()->redirect('admin/addLabel/')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -285,7 +309,7 @@ class AdminController extends Controller
                 $trl->text = $txt;
                 $trl->save();
             }
-            return redirect($request->curLang->prefix.'/admin/labels/');
+            return TrlHelper::t()->redirect('admin/labels/');
         }
     }
 
@@ -295,7 +319,7 @@ class AdminController extends Controller
         $labelDel = App\Label::find($request->id);
         $labelDel->delete();
         // return to languages list
-        return redirect($request->curLang->prefix.'/admin/labels/');
+        return TrlHelper::t()->redirect('admin/labels/');
 
     }
 
@@ -322,7 +346,12 @@ class AdminController extends Controller
         ]);
         $validator->setPresenceVerifier($verifier);
         if ($validator->fails()) {
+            /*
             return redirect($request->curLang->prefix.'/admin/editLabel/'.$request->id)
+                ->withErrors($validator)
+                ->withInput();
+            */
+            return TrlHelper::t()->redirect('admin/editLabel/'.$request->id)
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -343,7 +372,7 @@ class AdminController extends Controller
                // die;
                 $trl->save();
             }
-            return redirect($request->curLang->prefix.'/admin/labels/');
+            return TrlHelper::t()->redirect('admin/labels/');
         }
 
     }
