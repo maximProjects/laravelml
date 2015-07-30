@@ -45,7 +45,6 @@ class Languages
     {
         $prefix = Request::segment(1);
         \App\Helpers\TrlHelper::t($prefix);
-
         return $next($request);
     }
 }

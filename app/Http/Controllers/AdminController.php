@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Request;
 use App\User;
 use App\Country;
 use TrlHelper;
@@ -141,7 +141,7 @@ class AdminController extends Controller
     public function saveNewLang(Request $request) {
         $verifier = App::make('validation.presence');
         $verifier->setConnection('mysql');
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make(Request::all(), [
             'name' => 'required|max:35',
             'prefix' => 'required|unique:languages,prefix,',
             'image' => 'image'
@@ -158,15 +158,15 @@ class AdminController extends Controller
                 ->withInput();
         }
         $newLang = new App\Language();
-        $newLang->name = $request->name;
-        $newLang->prefix = $request->prefix;
-        if ($request->visible) {
-            $newLang->visible = $request->visible;
+        $newLang->name = Request::input('name');
+        $newLang->prefix = Request::input('prefix');
+        if (Request::input('visible')) {
+            $newLang->visible = Request::input('visible');
         }
         // is upload image save image
-        if ($request->hasFile('image')) {
-            $ext = $request->file('image')->getClientOriginalExtension();
-            $file_name = $request->prefix . "." . $ext;
+        if (Request::hasFile('image')) {
+            $ext = Request::file('image')->getClientOriginalExtension();
+            $file_name = Request::input('prefix') . "." . $ext;
             $img_save = Storage::put(
                 $file_name,
                 file_get_contents($request->file('image')->getRealPath())
@@ -189,9 +189,7 @@ class AdminController extends Controller
 
         $langDel = App\Language::find($request->id);
         $langDel->delete();
-
         // return to languages list
-
         return TrlHelper::t()->redirect('admin/languages');
 
     }

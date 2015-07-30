@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>Language admininstration</h1>
-    <a href="<?= url($curLang->prefix.'/admin/addLang') ?>">Add Language</a>
+    <a href="<?= url('en/admin/addLang') ?>">Add Language</a>
     <table border="1">
         <tr>
             <th>Id</th>
@@ -12,7 +12,7 @@
             <th>Status</th>
             <th>Actions</th>
         </tr>
-        @foreach ($langs as $lang)
+        @foreach (TrlHelper::t()->getLangArr() as $lang)
 
         <tr>
             <td>{{ $lang->id }}</td>
@@ -35,11 +35,11 @@
                 <?php
                 //if ($user->id != $one_user->id) {
                 ?>
-                <a href="<?= url($curLang->prefix.'/admin/deleteLang/'.$lang->id); ?>">Delete</a> |
+                <a href="<?= url('en/admin/deleteLang/'.$lang->id); ?>">Delete</a> |
                 <?php
                 //}
                 ?>
-                <a href="<?= url($curLang->prefix.'/admin/editLang/'.$lang->id); ?>">Edit</a>
+                <a href="<?= url('en/admin/editLang/'.$lang->id); ?>">Edit</a>
             </td>
         </tr>
         @endforeach

@@ -5,7 +5,7 @@
     <?php if ($errors->first('prefix')) echo $errors->first('prefix'); ?><br>
     <?php if ($errors->first('image')) echo $errors->first('image'); ?><br>
 
-    {!! Form::open(array('url' => $curLang->prefix.'/admin/saveNewLang/', 'method' => 'put', 'files' => true)) !!}
+    {!! Form::open(array('url' => 'en/admin/saveNewLang/', 'method' => 'put', 'files' => true)) !!}
     {!! csrf_field() !!}
 
     <div class="col-md-12">
